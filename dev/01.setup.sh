@@ -10,3 +10,6 @@ curl -s https://api.github.com/repos/xCykrix/githooked/releases/latest |
 chmod +x githooked.prod
 ./githooked.prod install
 rm ./githooked.prod
+
+# Set Permissions
+git update-index --chmod=+x ./dev/*.sh
