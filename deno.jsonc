@@ -20,7 +20,6 @@
       "decorators",
       "dom.asynciterable"
     ],
-    "checkJs": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "noErrorTruncation": true,
@@ -38,7 +37,6 @@
     "strictPropertyInitialization": true,
     "strictNullChecks": true,
     "useUnknownInCatchVariables": true,
-    "isolatedDeclarations": true
   },
   // Linting Options
   "lint": {
@@ -61,7 +59,7 @@
         "no-sparse-arrays",
         "no-sync-fn-in-async-fn",
         "no-throw-literal",
-        // "no-slow-types",
+        "no-slow-types",
         "no-undef",
         "prefer-ascii",
         "single-var-declarator",

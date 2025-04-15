@@ -1,5 +1,5 @@
-import { collection, type Database, kvdex } from '@olli/kvdex';
-import { ApplicationModel } from './lib/models.ts';
+import { type BuilderFn, collection, type Database, kvdex } from '@olli/kvdex';
+import { type Application, ApplicationModel } from './lib/models.ts';
 import { env } from './lib/util/env.ts';
 
 const ruri: string = env('DENO_KV_RCONF_URL');
@@ -9,7 +9,18 @@ env('DENO_KV_ACCESS_TOKEN');
 const rconf: Deno.Kv = await Deno.openKv(ruri);
 // const bucket = await Deno.openKv(buri);
 
-const rconfSchemaDefinition = {
+export type rconfBuilderFn = {
+  application: BuilderFn<Application, Application, {
+    readonly history: true;
+    readonly indices: {
+      readonly applicationId: 'primary';
+      readonly publicKey: 'primary';
+      readonly token: 'secondary';
+    };
+  }>;
+};
+
+const rconfSchema: rconfBuilderFn = {
   application: collection(ApplicationModel, {
     history: true,
     indices: {
@@ -19,9 +30,10 @@ const rconfSchemaDefinition = {
     },
   }),
 };
-const rconfModelSchema: Database<typeof rconfSchemaDefinition> = kvdex({
+
+const rconfModelSchema: Database<typeof rconfSchema> = kvdex({
   kv: rconf,
-  schema: rconfSchemaDefinition,
+  schema: rconfSchema,
 });
 
 /** bucket */
