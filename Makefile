@@ -19,6 +19,8 @@ build:
 validate:
 	@echo "Task: '03.validate'"
 	@mkdir -p "dev"
+	@touch ./dev/02.build.sh
+	@chmod +x ./dev/02.build.sh
 	@touch ./dev/03.validate.sh
 	@chmod +x ./dev/03.validate.sh
 	./dev/02.build.sh
