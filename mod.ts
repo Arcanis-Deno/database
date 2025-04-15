@@ -1,40 +1,41 @@
-import { collection, kvdex } from '@olli/kvdex';
+import { collection, type Database, kvdex } from '@olli/kvdex';
 import { ApplicationModel } from './lib/models.ts';
 import { env } from './lib/util/env.ts';
 
-const ruri = env('DENO_KV_RCONF_URL');
-const buri = env('DENO_KV_BUCKET_URL');
+const ruri: string = env('DENO_KV_RCONF_URL');
+// const buri = env('DENO_KV_BUCKET_URL');
 env('DENO_KV_ACCESS_TOKEN');
 
-const rconf = await Deno.openKv(ruri);
-const bucket = await Deno.openKv(buri);
+const rconf: Deno.Kv = await Deno.openKv(ruri);
+// const bucket = await Deno.openKv(buri);
 
-/** rconf */
-const rconfModelSchema = kvdex({
+const rconfSchemaDefinition = {
+  application: collection(ApplicationModel, {
+    history: true,
+    indices: {
+      applicationId: 'primary',
+      publicKey: 'primary',
+      token: 'secondary',
+    },
+  }),
+};
+const rconfModelSchema: Database<typeof rconfSchemaDefinition> = kvdex({
   kv: rconf,
-  schema: {
-    application: collection(ApplicationModel, {
-      history: true,
-      indices: {
-        applicationId: 'primary',
-        publicKey: 'primary',
-        token: 'secondary',
-      },
-    }),
-  },
+  schema: rconfSchemaDefinition,
 });
 
 /** bucket */
-const bucketModelSchema = kvdex({
-  kv: bucket,
-});
+// const bucketModelSchema = kvdex({
+//   kv: bucket,
+// });
 
 export class KVDatabase {
   public static getRemoteConfigurationDatabase(): typeof rconfModelSchema {
+    rconfModelSchema.application;
     return rconfModelSchema;
   }
 
-  public static getBucketConfigurationDatabase(): typeof bucketModelSchema {
-    return bucketModelSchema;
-  }
+  // public static getBucketConfigurationDatabase(): typeof bucketModelSchema {
+  //   return bucketModelSchema;
+  // }
 }

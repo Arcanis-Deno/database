@@ -1,4 +1,4 @@
-import { model } from '@olli/kvdex';
+import { type Model, model } from '@olli/kvdex';
 
 export type Application = {
   applicationId: string;
@@ -8,4 +8,4 @@ export type Application = {
   token: string;
 };
 
-export const ApplicationModel = model<Application>();
+export const ApplicationModel: Model<Application> = model<Application>();

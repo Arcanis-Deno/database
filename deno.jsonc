@@ -3,7 +3,7 @@
   "version": "0.0.1",
   // Imports
   "imports": {
-    "@olli/kvdex": "jsr:@olli/kvdex"
+    "@olli/kvdex": "jsr:@olli/kvdex@3.3.0"
   },
   "exports": {
     ".": "./mod.ts",
@@ -38,6 +38,7 @@
     "strictPropertyInitialization": true,
     "strictNullChecks": true,
     "useUnknownInCatchVariables": true,
+    "isolatedDeclarations": true
   },
   // Linting Options
   "lint": {
@@ -60,6 +61,7 @@
         "no-sparse-arrays",
         "no-sync-fn-in-async-fn",
         "no-throw-literal",
+        // "no-slow-types",
         "no-undef",
         "prefer-ascii",
         "single-var-declarator",
